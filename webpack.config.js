@@ -4,7 +4,6 @@ const htmlWebpackPlugin = require("html-webpack-plugin");
 const { HotModuleReplacementPlugin } = require("webpack");
 
 module.exports = {
-  mode: "development",
   entry: {
       app: "./src/app.js"
 },
