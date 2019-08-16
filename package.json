@@ -4,8 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "test:watch": "jest --watch",
     "test": "jest",
-    "build": "npx --mode=development webpack --watch",
+    "build": "npx --mode=development webpack",
     "dev": "npx webpack-dev-server"
   },
   "author": "vageez <avagenas14@gmail.com>",

@@ -18,6 +18,12 @@ Simple react app displaying Hacker News stories and their comments
 
 #### State managment is managed with Redux
 
+### Unit Tests implemented with JEST.
+> Testing of reducer actions
+
+### Styling with Styled components
+> Minimal use of media query to manage font size between Mobile and Desktop
+
 #### IO is handled through Epics, implementing Futures. Futures (Fluture) are a Mondaic alternative to handling Promises.
 
 > [Fluture Parallel](https://github.com/fluture-js/Fluture/tree/11.x#parallel)
