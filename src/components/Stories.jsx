@@ -6,7 +6,7 @@ import Story from './Story.jsx'
 const Stories = ({ getTopStories, items }) => {
   useEffect(() => getTopStories(), [])
   return items.cata({
-    Just: stories => stories.map(story => <Story key={story.id} {...story} />),
+    Just: stories => <section>{stories.map(story => <Story key={story.id} {...story} />)}</section>,
     Nothing: () => <div>{`Fetching Top 20 Stories`}</div>
   })
 }
