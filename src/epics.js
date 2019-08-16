@@ -13,7 +13,7 @@ const getTopStoriesEpic = {
   do: () =>
     getTopStoriesRequest()
       .map(({ data }) => getStoryItems(data))
-      .mapRej(error),
+      .mapRej(() => error(`getTopStoriesEpic`)),
 };
 
 const getStoryItemsEpic = {
@@ -21,7 +21,7 @@ const getStoryItemsEpic = {
   do: ({ payload }, _) =>
     parallel(Infinity, payload.slice(0, 10).map(getItemRequest))
       .map(items)
-      .mapRej(error),
+      .mapRej(() => error(`getStoryItemsEpic`)),
 };
 
 const getCommentsEpic = {
@@ -29,7 +29,7 @@ const getCommentsEpic = {
     do: ({ payload: { kids, id } }, _) =>
       parallel(Infinity, kids.slice(0, 20).map(getItemRequest))
         .map(response => comments({id, response}))
-        .mapRej(error),
+        .mapRej(() => error(`getCommentsEpic`)),
   };
 
 export const epics = [getTopStoriesEpic, getStoryItemsEpic, getCommentsEpic];

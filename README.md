@@ -28,4 +28,6 @@ Simple react app displaying Hacker News stories and their comments
 
 > [Fluture Parallel](https://github.com/fluture-js/Fluture/tree/11.x#parallel)
 
+> Parallel allows us to limit the number of out going requests our APP will make at a time. I currently set it to Infinity, which is unlimited. But this number can be adjusted so that we can have 5 async requests take off and complete before sending another 5. Their order of completion is not important.
+
 > [Fluture tryP](https://github.com/fluture-js/Fluture/tree/11.x#tryp)
