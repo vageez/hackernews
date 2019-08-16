@@ -4,6 +4,7 @@ const htmlWebpackPlugin = require("html-webpack-plugin");
 const { HotModuleReplacementPlugin } = require("webpack");
 
 module.exports = {
+  mode: "production",
   entry: {
       app: "./src/app.js"
 },
@@ -25,20 +26,7 @@ module.exports = {
         use: {
           loader: "babel-loader",
         },
-      },
-      {
-        test: /\.css$/,
-        use: ["style-loader", "css-loader"],
-      },
-      {
-        test: /\.(jpg|png|jpeg|svg|gif)$/,
-        loader: "file-loader",
-        options: {
-          name: "[name].[ext]",
-          outputPath: "images/",
-          publicPath: "./images",
-        },
-      },
+      }
     ],
   },
   resolve: {
