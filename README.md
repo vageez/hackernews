@@ -26,6 +26,8 @@ Simple react app displaying Hacker News stories and their comments
 
 #### IO is handled through Epics, implementing Futures. Futures (Fluture) are a Mondaic alternative to handling Promises.
 
+#### Errors in our IO, are pushed to an error action in the reducer. At this stage I am NOT doing anything to display these errors to the user.
+
 > [Fluture Parallel](https://github.com/fluture-js/Fluture/tree/11.x#parallel)
 
 > Parallel allows us to limit the number of out going requests our APP will make at a time. I currently set it to Infinity, which is unlimited. But this number can be adjusted so that we can have 5 async requests take off and complete before sending another 5. Their order of completion is not important.
