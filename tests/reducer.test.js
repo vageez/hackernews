@@ -2,17 +2,18 @@ import {
   storiesReducer,
   items,
   error,
-  comments,
   toggleComments,
+  addComments,
   Toggle,
   Maybe,
+  Status,
 } from "../src/reducer";
 
 const storiesFixture = [
   {
     by: "RickJWagner",
     descendants: 257,
-    id: 20711498,
+    id: 20716071,
     kids: [20712902, 20711712, 20711591, 20711731],
     score: 579,
     time: 1565920389,
@@ -65,9 +66,14 @@ describe("Reducer Actions Test", () => {
       Just: data => {
         expect(data[0].by).toEqual("RickJWagner");
         expect(data[0].num_comments).toEqual(4);
-        expect(data[1].display_time).toEqual("Fri Aug 16 2019");
+        expect(Status.Yes.is(data[0].hasComments)).toBe(true);
+        expect(Status.No.is(data[0].comments_requested)).toBe(true);
+        expect(data[0].display_time).toEqual("Thu Aug 15 2019");
+
         expect(data[1].by).toEqual("djsumdog");
         expect(data[1].num_comments).toEqual(6);
+        expect(Status.Yes.is(data[1].hasComments)).toBe(true);
+        expect(Status.No.is(data[1].comments_requested)).toBe(true);
         expect(data[1].display_time).toEqual("Fri Aug 16 2019");
       },
       Nothing: () => done.fail(),
@@ -76,32 +82,39 @@ describe("Reducer Actions Test", () => {
     done();
   });
 
-  it("Reducer Action: comments", done => {
+  it("Reducer Action: addComments", done => {
+    const stateWithStories = storiesReducer(undefined, items(storiesFixture));
+
     const state = storiesReducer(
-      undefined,
-      comments({ id: 20716071, response: commentsFixture })
+      stateWithStories,
+      addComments({ id: 20716071, response: commentsFixture })
     );
 
-    expect(Maybe.Just.is(state.comments[20716071].items)).toBe(true);
-    expect(Toggle.Off.is(state.comments[20716071].toggle)).toBe(true);
-    state.comments[20716071].items.cata({
+    state.items.cata({
       Just: data => {
-        expect(data[0].by).toEqual("giacaglia");
-        expect(data[1].by).toEqual("waitwhatwhere");
+        expect(data[0].comments).toEqual(commentsFixture);
+        expect(Toggle.On.is(data[0].display_comments)).toBe(true);
       },
       Nothing: () => done.fail(),
     });
-
     done();
   });
 
-  it("Reducer Action: toggleComments", () => {
+  it("Reducer Action: toggleComments", done => {
+    const stateWithStories = storiesReducer(undefined, items(storiesFixture));
+
     const state = storiesReducer(
-      { comments: { 20716071: { items: Maybe.Just({}), toggle: Toggle.Off } } },
+      stateWithStories,
       toggleComments({ id: 20716071 })
     );
 
-    expect(Toggle.On.is(state.comments[20716071].toggle)).toBe(true);
+    state.items.cata({
+      Just: data => {
+        expect(Toggle.On.is(data[0].display_comments)).toBe(true);
+      },
+      Nothing: () => done.fail(),
+    });
+    done();
   });
 
   it("Reducer Action: error", done => {
