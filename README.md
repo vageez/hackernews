@@ -6,6 +6,10 @@ Simple react app displaying Hacker News stories and their comments
 > Using functional components with the of React Hooks instead of React Class lifecycle methods.
 > No local component state. All application state is resides in Redux.
 
+### Application Flow
+> On page load top 10 stories are fetched and loaded into Redux.
+> On request of comments for a story, comments are fetched and loaded into redux (once).
+
 ### For Local Development with Webpack Dev Server, pls run
 > yarn dev 
 > // Project is running at http://localhost:3030/
