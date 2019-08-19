@@ -4,7 +4,7 @@ const htmlWebpackPlugin = require("html-webpack-plugin");
 const { HotModuleReplacementPlugin } = require("webpack");
 
 module.exports = {
-  mode: "production",
+  mode: "development",
   entry: {
       app: "./src/app.js"
 },
@@ -25,6 +25,10 @@ module.exports = {
         exclude: /node_modules/,
         use: {
           loader: "babel-loader",
+          options: {
+            presets: ["@babel/preset-react"],
+            plugins: ["@babel/plugin-transform-runtime", "babel-plugin-styled-components"]
+          }
         },
       }
     ],
