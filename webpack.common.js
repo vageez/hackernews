@@ -1,18 +1,11 @@
 const path = require("path");
-const { CleanWebpackPlugin } = require("clean-webpack-plugin");
-const htmlWebpackPlugin = require("html-webpack-plugin");
-const { HotModuleReplacementPlugin } = require("webpack");
+// const { CleanWebpackPlugin } = require("clean-webpack-plugin");
+// const htmlWebpackPlugin = require("html-webpack-plugin");
+// const { HotModuleReplacementPlugin } = require("webpack");
 
 module.exports = {
-  mode: "development",
   entry: {
       app: "./src/app.js"
-},
-  devtool: "inline-source-map",
-  devServer: {
-    contentBase: "./dist",
-    port: 3030,
-    hot: true,
   },
   output: {
     filename: "[name].bundle.[hash].js",
@@ -39,18 +32,5 @@ module.exports = {
       Epics: path.resolve(__dirname, 'src/epics.js'),
       Const: path.resolve(__dirname, 'src/const.js'),
     }
-  },  
-  plugins: [
-    // Hot reloading of webpack dev server
-    new HotModuleReplacementPlugin(),
-    new CleanWebpackPlugin(),
-    // 
-    new htmlWebpackPlugin({
-        title: 'Hackernews',
-        inject: false,
-        template: require('html-webpack-template'),
-        appMountId: 'root',
-        devServer: 'http://localhost:3030',
-    })
-  ],
+  }
 };

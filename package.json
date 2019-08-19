@@ -6,8 +6,9 @@
   "scripts": {
     "test:watch": "jest --watch",
     "test": "jest",
-    "build": "npx webpack",
-    "dev": "npx webpack-dev-server"
+    "dev": "npx webpack-dev-server --config webpack.dev.js",
+    "builddev": "npx webpack --config webpack.dev.js",
+    "buildprod": "npx webpack --config webpack.prod.js"
   },
   "author": "vageez <avagenas14@gmail.com>",
   "license": "MIT",
@@ -28,7 +29,8 @@
     "style-loader": "^1.0.0",
     "webpack": "^4.39.2",
     "webpack-cli": "^3.3.6",
-    "webpack-dev-server": "^3.8.0"
+    "webpack-dev-server": "^3.8.0",
+    "webpack-merge": "^4.2.1"
   },
   "dependencies": {
     "@babel/runtime": "^7.5.5",
