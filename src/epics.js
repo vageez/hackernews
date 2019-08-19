@@ -1,6 +1,6 @@
 import { tryP, parallel } from "fluture";
 import axios from "axios";
-import { getTopStories, getStoryItems, items, error, getComments, comments } from "Reducer";
+import { getTopStories, getStoryItems, items, error, getComments, addComments } from "Reducer";
 import { URL_TOP_STORIES, URL_ITEM } from "./const";
 
 const getTopStoriesRequest = () => tryP(() => axios.get(URL_TOP_STORIES));
@@ -27,8 +27,8 @@ const getStoryItemsEpic = {
 const getCommentsEpic = {
     type: getComments.toString(),
     do: ({ payload: { kids, id } }, _) =>
-      parallel(Infinity, kids.slice(0, 20).map(getItemRequest))
-        .map(response => comments({id, response}))
+      parallel(Infinity, kids.map(getItemRequest))
+        .map(response => addComments({id, response}))
         .mapRej(() => error(`getCommentsEpic`)),
   };
 
