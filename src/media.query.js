@@ -5,5 +5,5 @@ export const media = {
     @media (max-width: 640px) {
       ${css(...args)};
     }
-  `,
+  `
 }

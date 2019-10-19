@@ -1,4 +1,4 @@
-import { createAction, handleActions } from "redux-actions";
+import { createAction, handleActions } from 'redux-actions'
 import {
   elems,
   set,
@@ -6,37 +6,37 @@ import {
   transform,
   ifElse,
   seq,
-  identity,
-} from "partial.lenses";
-import { taggedSum } from "daggy";
+  identity
+} from 'partial.lenses'
+import { taggedSum } from 'daggy'
 
-export const Maybe = taggedSum("Maybe", {
-  Just: ["data"],
-  Nothing: [],
-});
+export const Maybe = taggedSum('Maybe', {
+  Just: ['data'],
+  Nothing: []
+})
 
-export const Toggle = taggedSum("Toggle", {
+export const Toggle = taggedSum('Toggle', {
   On: [],
-  Off: [],
-});
+  Off: []
+})
 
-export const Status = taggedSum("Status", {
+export const Status = taggedSum('Status', {
   Yes: [],
-  No: [],
-});
+  No: []
+})
 
-export const getTopStories = createAction("GET_TOP_STORIES");
-export const getStoryItems = createAction("GET_STORY_ITEMS");
-export const items = createAction("ITEMS");
-export const error = createAction("ERROR");
-export const getComments = createAction("GET_COMMENTS");
-export const toggleComments = createAction("TOGGLE_COMMENTS");
-export const addComments = createAction("ADD_COMMENTS");
+export const getTopStories = createAction('GET_TOP_STORIES')
+export const getStoryItems = createAction('GET_STORY_ITEMS')
+export const items = createAction('ITEMS')
+export const error = createAction('ERROR')
+export const getComments = createAction('GET_COMMENTS')
+export const toggleComments = createAction('TOGGLE_COMMENTS')
+export const addComments = createAction('ADD_COMMENTS')
 
 const INITIAL_STATE = {
   items: Maybe.Nothing,
-  error: Maybe.Nothing,
-};
+  error: Maybe.Nothing
+}
 
 const formatStories = stories =>
   stories.map(story => ({
@@ -47,8 +47,8 @@ const formatStories = stories =>
     comments: [],
     comments_requested: Status.No,
     display_comments: Toggle.Off,
-    display_time: new Date(Number(`${story.time}000`)).toDateString(),
-  }));
+    display_time: new Date(Number(`${story.time}000`)).toDateString()
+  }))
 
 const addCommentsToStory = id => comments => items =>
   transform(
@@ -59,19 +59,19 @@ const addCommentsToStory = id => comments => items =>
         seq(
           modifyOp(item =>
             set(
-              "display_comments",
+              'display_comments',
               Toggle.On.is(item.display_comments) ? Toggle.Off : Toggle.On,
               item
             )
           ),
-          modifyOp(set("comments_requested", Status.Yes)),
-          modifyOp(set("comments", comments))
+          modifyOp(set('comments_requested', Status.Yes)),
+          modifyOp(set('comments', comments))
         ),
         identity
-      ),
+      )
     ],
     items
-  );
+  )
 
 const toggleItemComments = id => items =>
   transform(
@@ -81,45 +81,45 @@ const toggleItemComments = id => items =>
         item => item.id === id,
         modifyOp(item =>
           set(
-            "display_comments",
+            'display_comments',
             Toggle.On.is(item.display_comments) ? Toggle.Off : Toggle.On,
             item
           )
         ),
         identity
-      ),
+      )
     ],
     items
-  );
+  )
 
 export const storiesReducer = handleActions(
   {
     ITEMS: (state, { payload }) => ({
       ...state,
-      items: Maybe.Just(formatStories(payload)),
+      items: Maybe.Just(formatStories(payload))
     }),
     ADD_COMMENTS: (state, { payload: { id, response } }) => ({
       ...state,
       items: state.items.cata({
         Just: items => Maybe.Just(addCommentsToStory(id)(response)(items)),
-        Nothing: Maybe.Nothing,
-      }),
+        Nothing: Maybe.Nothing
+      })
     }),
     TOGGLE_COMMENTS: (state, { payload: { id } }) => ({
       ...state,
       items: state.items.cata({
         Just: items => Maybe.Just(toggleItemComments(id)(items)),
-        Nothing: Maybe.Nothing,
-      }),
+        Nothing: Maybe.Nothing
+      })
     }),
     ERROR: (state, { payload }) => ({
       ...state,
-      error: Maybe.Just(payload),
-    }),
+      error: Maybe.Just(payload)
+    })
   },
   INITIAL_STATE
-);
+)
 
 export const reducer = {
-  stories: storiesReducer,
-};
+  stories: storiesReducer
+}
