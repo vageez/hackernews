@@ -3,12 +3,15 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "homepage": "https://vageez.github.io/hackernews",
   "scripts": {
     "test:watch": "jest --watch",
     "test": "jest",
     "dev": "npx webpack-dev-server --config webpack.dev.js",
     "builddev": "npx webpack --config webpack.dev.js",
-    "buildprod": "npx webpack --config webpack.prod.js"
+    "buildprod": "npx webpack --config webpack.prod.js",
+    "predeploy": "npm run buildprod",
+    "deploy": "gh-pages -d dist"
   },
   "author": "vageez <avagenas14@gmail.com>",
   "license": "MIT",
